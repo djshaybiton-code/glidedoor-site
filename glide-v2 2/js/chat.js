@@ -1,8 +1,9 @@
 /* ── GLIDE DOOR AI CHAT WIDGET (rules-based, no API / no cost) ──
    Drop-in replacement for js/chat.js. Same look & feel as before, but it answers
    from a built-in script instead of calling a paid API — so it works with zero
-   backend, zero API key, and zero ongoing cost. It diagnoses common problems,
-   quotes price ranges, and captures name + phone + city as a lead. */
+   backend, zero API key, and zero ongoing cost. It diagnoses common problems
+   and captures name + phone + city as a lead. Pricing is only ever given in
+   person by a technician — the bot never quotes a price. */
 (function() {
 'use strict';
 
@@ -115,27 +116,27 @@ const quickBtns = document.getElementById('gde-quick-btns');
 // ── INTENTS (keyword → scripted reply) ───────────────────────────────────────
 const INTENTS = [
   { label:'Door hard to open', kw:['hard to open','hard to slide','stuck','stick','drag','heavy','wont slide',"won't slide",'hard to move'],
-    reply:"That's one of the most common repairs we do — a door that sticks or drags is almost always **worn rollers** or a **dirty/bent track**, usually a **same-day fix ($125–$225)**. Which city are you in — Tempe, Mesa, Scottsdale, Gilbert, or Chandler?" },
+    reply:"That's one of the most common repairs we do — a door that sticks or drags is almost always **worn rollers** or a **dirty/bent track**, usually a **same-day fix**. Which city are you in — Tempe, Mesa, Scottsdale, Gilbert, or Chandler?" },
   { label:'Grinding noise', kw:['grind','grinding','noise','loud','scraping'],
-    reply:"Grinding usually means **worn rollers or a dirty track** — an easy same-day fix (**$100–$225**). Which city are you in?" },
+    reply:"Grinding usually means **worn rollers or a dirty track** — an easy same-day fix. Which city are you in?" },
   { label:'Off the track', kw:['off track','off the track','came off','fell off','fell out','jumped','off-track'],
-    reply:"Let's get that sorted — please don't force it back in, that can bend the frame. Usually rollers or track alignment (**$150–$300**), often same-day. What city are you in?" },
+    reply:"Let's get that sorted — please don't force it back in, that can bend the frame. Usually rollers or track alignment, often same-day. What city are you in?" },
   { label:"Won't lock", kw:["won't lock",'wont lock','lock','latch','wont latch',"won't latch",'handle','wont stay shut'],
-    reply:"A door that won't lock is usually a **misaligned latch or worn lock (**$75–$150**)** — a quick fix and important for security. What city are you in?" },
+    reply:"A door that won't lock is usually a **misaligned latch or worn lock** — a quick fix and important for security. What city are you in?" },
   { label:'Broken glass', kw:['glass','crack','cracked','shatter','shattered','broken pane','foggy','fog'],
-    reply:"We handle **glass replacement (**$200–$500+**)** — measured same day, installed next. For safety, keep kids and pets clear. What city are you in?" },
+    reply:"We handle sliding door **glass replacement** — measured same day, installed next. For safety, keep kids and pets clear. What city are you in?" },
   { label:'Screen door', kw:['screen','mesh'],
-    reply:"We repair and replace **screen doors, rollers, and frames (**$75–$150**)**. What city are you in?" },
+    reply:"We repair and replace **screen doors, rollers, and frames**. What city are you in?" },
   { label:'Roller replacement', kw:['roller','rollers','wheel','wheels'],
-    reply:"**Roller replacement (**$125–$225**)** makes an old door glide like new — usually same-day. What city are you in?" },
+    reply:"**Roller replacement** makes an old door glide like new — usually same-day. What city are you in?" },
   { label:'Track repair', kw:['track','bent track','rusty','damaged track'],
-    reply:"A worn or bent **track** makes the door grind and catch — we repair or cap it (**$100–$250**). What city are you in?" },
+    reply:"A worn or bent **track** makes the door grind and catch — we repair or cap it. What city are you in?" },
   { label:'Patio door', kw:['patio','sliding glass','backyard','big door'],
     reply:"We fix **patio sliding doors** of all sizes — rollers, tracks, locks, and glass. What city are you in?" },
   { label:'Emergency / same-day', kw:['emergency','urgent','asap','today','tonight','right now','same day','same-day','now'],
     reply:"We offer **same-day service, 7 days a week, 7am–8pm**, and can prioritize urgent jobs. What city are you in?" },
   { label:'Pricing', kw:['how much','cost','price','pricing','quote','estimate','expensive','$'],
-    reply:"Every door is a little different, so we give a **free, no-obligation estimate** (often over the phone). Common repairs — rollers, track, locks — are affordable and same-day, all backed by a **1-year parts & labor warranty**. What's the door doing, and what city are you in?" },
+    reply:"Great question — we don't quote prices over chat, because every door is different and we want to give you an honest number. Our technician provides a **free, no-obligation estimate in person** and tells you the exact price before any work begins. What's the door doing, and what city are you in?" },
   { label:'Booking', kw:['book','appointment','schedule','come out','set up','visit'],
     reply:"Happy to book you in — same-day slots are open across the East Valley. What city are you in — Tempe, Mesa, Scottsdale, Gilbert, or Chandler?" },
   { label:'Hours', kw:['hours','open','when are you','availability'],
