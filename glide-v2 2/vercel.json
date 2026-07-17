@@ -2,7 +2,7 @@
   "rewrites": [
     {
       "source": "/videos/after.mp4",
-      "destination": "https://glide-v2-2-3lqg7drb4-shay8.vercel.app/videos/after.mp4"
+      "destination": "/videos/after3.mp4"
     }
   ]
 }
