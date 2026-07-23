@@ -26,3 +26,19 @@ if (toggle && links) {
     }
   });
 }
+
+/* ===== Google Ads tag (added for ads conversion tracking) ===== */
+(function(){
+  try{
+    if (window.__gadsInit) return;
+    window.__gadsInit = true;
+    window.dataLayer = window.dataLayer || [];
+    window.gtag = window.gtag || function(){ dataLayer.push(arguments); };
+    var s = document.createElement('script');
+    s.async = true;
+    s.src = 'https://www.googletagmanager.com/gtag/js?id=' + 'AW-18163940291';
+    (document.head || document.documentElement).appendChild(s);
+    gtag('js', new Date());
+    gtag('config', 'AW-18163940291');
+  } catch (e) {}
+})();
