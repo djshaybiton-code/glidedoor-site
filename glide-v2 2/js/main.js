@@ -43,27 +43,22 @@ if (toggle && links) {
   } catch (e) {}
 })();
 
-
-/* ===== Lead conversion: fires when the estimate form is submitted ===== */
-(function(){
+/* ===== Lead conversion: fires when the estimate form is submitted (delegated) ===== */
+document.addEventListener('click', function(e){
   try{
-    var btn = document.querySelector('.cf-submit');
+    var btn = (e.target && e.target.closest) ? e.target.closest('.cf-submit') : null;
     if (!btn) return;
-    btn.addEventListener('click', function(){
-      try{
-        var scope = btn.closest('#contact') || document;
-        var fields = scope.querySelectorAll('input, textarea, select');
-        var nameOk = false, phoneOk = false;
-        fields.forEach(function(f){
-          var v = (f.value || '').trim();
-          if (f.type === 'text' && v) nameOk = true;
-          if (f.type === 'tel' && v.replace(/\D/g,'').length >= 7) phoneOk = true;
-        });
-        if (nameOk && phoneOk && typeof gtag === 'function' && !window.__leadConvFired){
-          window.__leadConvFired = true;
-          gtag('event', 'conversion', {'send_to': 'AW-18163940291/fd48CKmrhdUcEMP3ntVD'});
-        }
-      } catch (e) {}
+    var scope = btn.closest('#contact') || document;
+    var fields = scope.querySelectorAll('input, textarea, select');
+    var nameOk = false, phoneOk = false;
+    fields.forEach(function(f){
+      var v = (f.value || '').trim();
+      if (f.type === 'text' && v) nameOk = true;
+      if (f.type === 'tel' && v.replace(/\D/g,'').length >= 7) phoneOk = true;
     });
-  } catch (e) {}
-})();
+    if (nameOk && phoneOk && typeof gtag === 'function' && !window.__leadConvFired){
+      window.__leadConvFired = true;
+      gtag('event', 'conversion', {'send_to': 'AW-18163940291/fd48CKmrhdUcEMP3ntVD'});
+    }
+  } catch (err) {}
+}, true);
