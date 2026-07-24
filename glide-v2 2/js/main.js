@@ -63,7 +63,7 @@ document.addEventListener('click', function(e){
   } catch (err) {}
 }, true);
 
-/* ===== Lead delivery: emails the estimate form to the business (delegated) ===== */
+/* ===== Lead delivery: emails the estimate form to the business via Web3Forms ===== */
 document.addEventListener('click', function(e){
   try{
     var btn = (e.target && e.target.closest) ? e.target.closest('.cf-submit') : null;
@@ -75,22 +75,22 @@ document.addEventListener('click', function(e){
     var first = g(0), last = g(1), phone = g(2), city = g(3), service = g(4), message = g(5);
     if (!first || phone.replace(/\D/g,'').length < 7) return;
     window.__leadSent = true;
+    var name = (first + ' ' + last).trim();
     var payload = {
-      _subject: 'New estimate request - ' + (first + ' ' + last).trim(),
-      Name: (first + ' ' + last).trim(),
+      access_key: 'c771587f-fc05-400e-88be-fc74cf232c5d',
+      subject: 'New Estimate Request - ' + name,
+      from_name: 'Glide Door Website',
+      Name: name,
       Phone: phone,
       City: city,
       Service: service,
-      Message: message,
-      _template: 'table'
+      Message: message
     };
-    var ep = 'https://formsubmit.co/ajax/' + ['djshaybiton','gmail.com'].join('@');
-    fetch(ep, {
+    fetch('https://api.web3forms.com/submit', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
       body: JSON.stringify(payload)
     }).catch(function(){ window.__leadSent = false; });
   } catch (err) {}
 }, true);
-
-/* build: lead-delivery-live */
+/* build: web3forms-live */
